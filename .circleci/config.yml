@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 default_image: &default_image
   docker:
@@ -12,8 +12,8 @@ jobs:
       - run:
           name: Test configuration
           command: |
-          echo It Works
-          ls -al
+            echo It Works
+            ls -al
 
 workflows:
   defaults:
