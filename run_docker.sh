@@ -61,3 +61,8 @@ function run_container () {
     docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_REPO/$IMAGE_NAME python3 app.py | tee output_txt_files/run_container_output.txt
   fi
 }
+
+# Using IMAGE REPO and the image name to upload to repository
+function upload_image () {
+  docker push $IMAGE_REPO/$IMAGE_NAME
+}
