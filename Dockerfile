@@ -5,7 +5,8 @@ WORKDIR /app
 
 # Copy source code to working directory
 COPY app.py requirements.txt ./
-
+COPY output_txt_files /app/output_txt_files
+COPY model_data  /app/model_data
 
 # Install packages from requirements.txt
 # hadolint ignore=DL3013
