@@ -52,5 +52,12 @@ function run_container () {
     PORT=$1
   fi
 
-  docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_REPO/$IMAGE_NAME python3 app.py
+  docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_REPO/$IMAGE_NAME python3 app.py | tee output_txt_files/run_container_output.txt
+  grep "already in use" output_txt_files/run_container_output.txt
+  echo $? last commandss
+  if [[ $? == 0 ]]; then
+    docker container stop $CONTAINER_NAME
+    docker rm $CONTAINER_NAME
+    docker run -d --name $CONTAINER_NAME -p $PORT:80 $IMAGE_REPO/$IMAGE_NAME python3 app.py | tee output_txt_files/run_container_output.txt
+  fi
 }
