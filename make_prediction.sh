@@ -2,6 +2,11 @@
 
 # PORT=8000
 PORT=80
+
+# Provide a different port to listen on
+if [[ ! -z $1 ]]; then
+  PORT=$1
+fi
 echo "Port: $PORT"
 
 # POST method predict
