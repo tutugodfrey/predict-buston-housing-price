@@ -61,3 +61,27 @@ Replace POD_NAME in the command below with the name of the Pod created.
 kubectl logs POD_NAME --container boston-house-model
 
 ```
+
+If you are connected to the cluster, you can also test using the ClusterIP
+
+```bash
+curl ClusterIP:8082
+
+```
+
+### Clean up
+
+```bash
+kubectl delete deployment boston-house-deployment
+```
+
+```bash
+kubectl delete service boston-house-service
+```
+
+**Note:** There is also a similar deployment and service template that uses a Load Balancer instead of NodePort `lb-deployment.yml`
+
+```bash
+kubectl create -f lb-deployment.yml
+```
+
