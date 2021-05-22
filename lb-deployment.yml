@@ -1,0 +1,40 @@
+# Create a Deployment
+# Create a Load balancer service that expose port 8080
+# curl lbIP:8080 to access the application
+# If login to the node curl localhost:32000
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boston-house-app-deployment
+  labels:
+    run: boston-house
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: boston-house
+  template:
+    metadata:
+      labels:
+        run: boston-house
+    spec:
+      containers:
+      - name: boston-house-app-container
+        image: tutug/boston-house-model
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: boston-house-lb-service
+spec:
+  selector:
+    run: boston-house
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    targetPort: 80
+    nodePort: 32000
+    protocol: TCP
