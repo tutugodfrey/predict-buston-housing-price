@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boston-house-deployment
+  labels:
+    run: boston-house-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: boston-house-app
+  template:
+    metadata:
+      labels:
+        run: boston-house-app
+    spec:
+      containers:
+      - name: boston-house-model
+        image: tutug/boston-house-model
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/messages
+      - name: log-container
+        image: busybox:latest
+        command: ["sh", "-c", "while true; do cat /var/log/messages sleep 30; done"]
+        volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/messages
+      volumes:
+      - name: log-volume
+        emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: boston-house-service
+spec:
+  selector:
+    run: boston-house-app
+  type: NodePort
+  ports:
+  - port: 8082
+    targetPort: 80
+    nodePort: 31000  # ensure the port is open in firewall rule
+    protocol: TCP
